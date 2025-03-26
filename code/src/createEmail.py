@@ -14,6 +14,7 @@ import google as genai
 from PIL import Image
 from dotenv import load_dotenv
 import google.generativeai as genai
+import pandas as pd
 # Load environment variables from the .env file
 load_dotenv()
 # Configure the Gemini API key (from Google AI Studio)
@@ -97,48 +98,29 @@ def call_llm_for_processing(email_text: str, attachment_text: str,
     input = f"""
     You are an expert in processing loan service requests at Wells Fargo .As part of Commerical Bank Lending Service team you daily get a significant volume of servicing requests through emails which may contain attachments as well . Given input you have to extract key fields, classify the email into its request type and sub request types along with the confidence score strictly based on the rules in the input. The input would contain email content in text form along with attachment in pdf, jpeg, txt or jpg  etc. 
     
+    given input is of the form - 
     
-    Given input : 
-    "
-    "extraction_fields": {extraction_fields} , 
-    "email content":{email_text},
+    rules: {rules},
+    extraction_fields: {extraction_fields} , 
+    Email Content:
+    {email_text}
 
-    "Attachment content":
+    Attachment content:
     {attachment_text}
 
-    "Rules":{json.dumps(rules, indent=2)}
+    Rules:
+    {json.dumps(rules, indent=2)}
 
-    "Request type description":{json.dumps(request_type_defs, indent=2)}
+    Request type description:
+    {json.dumps(request_type_defs, indent=2)}
 
-    "
-    And its output format as - 
+    output should be of the form -
     
-    extracted_fields : {
-"deal name" : "CANTOR FITZGERALD LP USD 425MM MAR22 / REVOLVER/ CANTOR FIT00037",
-"date":"8-Nov-2023", "effective date":"10-Nov-2023"
- , "source bank" : "Bank of America, N.A."
- , "Transactor":"CANTOR FITZGERALD LP" , 
-"Amount" : "USD 20,000,000.00 " ,
-"expiration date" : None 
-}, 
-
-request type : {"Primary Request Type" :"Money-Movement-inbound" , "Request Type" :
-[
-{
-"Adjustment":
-{
-"Confidence score" : 0.2,
-"Reason" : "Since the loan principal has been modified after loan repayment",
-"request sub type" : None 
- } ,
- 
-{
-"Money-Movement-inbound" : {
-"Confidence score" : 0.8,
-"Reason" : "Since the money has been paid/moved to the bank and is inbound.", 
-"request sub type" : "Principal"
- } 
- ] } 
+        "extracted fields" ,
+        "primary request types",
+        "request types": "sub request types" , "confidence score", "reason for the classification"
+    
+     
     """
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -201,7 +183,10 @@ def process_email_with_llm(raw_email: bytes , request_type_defs: str,extraction_
     email_text = processor.get_email_content() 
     output = call_llm_for_processing(email_text=email_text , attachment_text=attachment_texts, rules=rules, request_type_defs=request_type_defs, extraction_fields=extraction_fields)
     # Call the LLM to process and interpret the content.
-    
+    df = pd.read_csv(r"C:\Users\HP\hackathon\gaied-codebenders\code\src\service_requests.csv" )
+    df.loc[len(df)] = [email_hash , output.text , duplicate_info["flag"]]
+    # df = df.append({"256RSAHash" : email_hash , "Info" : output , "Is duplicate" : duplicate_info["flag"] }, ignore_index=True)
+    df.to_csv(r"C:\Users\HP\hackathon\gaied-codebenders\code\src\service_requests.csv" , index=False)
     return output.text
 
 
@@ -258,5 +243,5 @@ def run(email_path , request_type_defs, extraction_fields, rules):
         return 
     
     result = process_email_with_llm(raw_email,  request_type_defs, extraction_fields, rules)
-    return json.dumps(result, indent=4) 
+    return json.dumps(result, indent=4)
 

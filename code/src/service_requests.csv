@@ -1,0 +1,399 @@
+256RSAHash,Info,Is duplicate
+csdvcdsvdgsw214124g12416,,
+2c28884a41c993d247924e9d7e3f4b6ac4981679b8311b30da84d8244528505a,"response:
+GenerateContentResponse(
+    done=True,
+    iterator=None,
+    result=protos.GenerateContentResponse({
+      ""candidates"": [
+        {
+          ""content"": {
+            ""parts"": [
+              {
+                ""text"": ""```json\n{\n  \""extracted fields\"": {\n    \""deal name\"": \""CANTOR FITZGERALD LP USD 425MM MAR22 / REVOLVER / CANTOR FIT00037\"",\n    \""date\"": \""8-Nov-2023\"",\n    \""effective date\"": \""10-Nov-2023\"",\n    \""source bank\"": \""BANK OF AMERICA\"",\n    \""Transactor\"": \""R FITZGERALD LP\"",\n    \""Amount\"": \""20,000,000.00\"",\n    \""expiration date\"": None\n  },\n  \""primary request type\"": \""Money-Movement-outbound\"",\n  \""request types\"": {\n    \""Money-Movement-outbound\"": [\n      \""Foreign currency\""\n    ]\n  },\n  \""confidence score\"": 0.7,\n  \""reason for the classification\"": \""The clearly mentioned repayment and money remitted in the email along with the foreign currency mentioned in the email suggests money movement outbound.\""\n}\n```\n\n**extracted fields**: \n Clearly extracted all the required fields from the email.\n\n**primary request type**: Clearly a money movement outbound as the money is being paid back to the bank. \n\n**request types**: As it is money movement outbound, we can confidently classify it as Money-Movement-outbound and as foreign currency is mentioned in the email hence foreign currency as the sub request type.\n\n**confidence score**: 0.7 because the clearly mentioned money movement in the email but not clearly specified whether it is foreign currency or not.\n\n**reason for the classification**: The clearly mentioned repayment and money remitted in the email along with the foreign currency mentioned in the email suggests money movement outbound. \n""
+              }
+            ],
+            ""role"": ""model""
+          },
+          ""finish_reason"": ""STOP"",
+          ""index"": 0,
+          ""safety_ratings"": [
+            {
+              ""category"": ""HARM_CATEGORY_SEXUALLY_EXPLICIT"",
+              ""probability"": ""NEGLIGIBLE""
+            },
+            {
+              ""category"": ""HARM_CATEGORY_HATE_SPEECH"",
+              ""probability"": ""NEGLIGIBLE""
+            },
+            {
+              ""category"": ""HARM_CATEGORY_HARASSMENT"",
+              ""probability"": ""NEGLIGIBLE""
+            },
+            {
+              ""category"": ""HARM_CATEGORY_DANGEROUS_CONTENT"",
+              ""probability"": ""NEGLIGIBLE""
+            }
+          ]
+        }
+      ],
+      ""usage_metadata"": {
+        ""prompt_token_count"": 1228,
+        ""candidates_token_count"": 367,
+        ""total_token_count"": 1595
+      },
+      ""model_version"": ""gemini-1.5-flash-001-tuning""
+    }),
+)",0.0
+2c28884a41c993d247924e9d7e3f4b6ac4981679b8311b30da84d8244528505a,"```json
+{
+   ""extracted fields"" :{
+           ""deal name"": ""CANTOR FITZGERALD LP USD 425MM MAR22 / REVOLVER/ CANTOR FIT00037"",
+           ""date"":""8-Nov-2023"",
+           ""effective date"":""10-Nov-2023"",
+           ""source bank"":""BANK OF AMERICA"",
+           ""Transactor"":""R FITZGERALD LP"",
+           ""Amount"":""20,000,000.00"",
+           ""expiration date"":null
+    },
+   ""primary request type"":""Money-Movement-inbound"",
+   ""request types"": {
+            ""Adjustment"": [],
+            ""Closing Notice"": [],
+            ""Commitment Change"": [],
+            ""Fee Payment"": [],
+            ""Money-Movement-inbound"": [
+                ""Principal + Interest""
+            ],
+            ""Money-Movement-outbound"": []
+        },
+   ""confidence score"": 0.9,
+   ""reason for the classification"": ""Clearly mentioned the primary money movement is inbound in the email i.e. 'R FITZGERALD LP has elected to repay under the SOFR (US) Term option, a total of USD 20,000,000.00.'  Also, the attachment is not useful for request type classification."" 
+}
+```Clearly mentioned the primary money movement is inbound in the email i.e. 'R FITZGERALD LP has elected to repay under the SOFR (US) Term option, a total of USD 20,000,000.00.'  Also, the attachment is not useful for request type classification. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ",0.0
