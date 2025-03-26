@@ -24,37 +24,43 @@ A brief overview of your project and its purpose. Mention which problem statemen
 ![Screenshot 1](link-to-image)
 
 ## 💡 Inspiration
-What inspired you to create this project? Describe the problem you're solving.
+This project was inspired by the need for efficient automation and AI-powered solutions in hackathon environments. Given our experience in Python development, DevOps, and automation, we wanted to build a scalable system that streamlines complex tasks like data validation, backend processing, and deployment automation.
 
 ## ⚙️ What It Does
-Explain the key features and functionalities of your project.
+This project is an AI-powered email classification system that categorises incoming emails based on their content. It uses machine learning to automate sorting, improve organisation, and enhance productivity.
 
 ## 🛠️ How We Built It
-Briefly outline the technologies, frameworks, and tools used in development.
+Components & Technologies:
+Email Processing: IMAP/SMTP, email-parser
+OCR: Tesseract, AWS Textract, OpenCV
+NLP & AI Models: Gemini, spaCy
+Database:Microsoft Excel
+Backend API: FastAPI, Flask
+Frontend : Streamlit
 
 ## 🚧 Challenges We Faced
-Describe the major technical or non-technical challenges your team encountered.
+Some challenges faced include handling imbalanced datasets, ensuring high classification accuracy, and optimising model performance for real-time predictions. Additionally, integrating the email processing pipeline with the backend while maintaining scalability and efficiency required careful architecture design.
 
 ## 🏃 How to Run
 1. Clone the repository  
    ```sh
-   git clone https://github.com/your-repo.git
+   git clone https://github.com/ewfx/gaied-codebenders
    ```
 2. Install dependencies  
-   ```sh
-   npm install  # or pip install -r requirements.txt (for Python)
-   ```
+   pip install -r requirements.txt (for Python)
+   
 3. Run the project  
-   ```sh
-   npm start  # or python app.py
-   ```
+    streamlit run frontend.py
+   
 
 ## 🏗️ Tech Stack
-- 🔹 Frontend: React / Vue / Angular
-- 🔹 Backend: Node.js / FastAPI / Django
-- 🔹 Database: PostgreSQL / Firebase
-- 🔹 Other: OpenAI API / Twilio / Stripe
+- 🔹 Frontend: Streamlit
+- 🔹 Backend: FastAPI
+- 🔹 Database: Microsoft Excel
+- 🔹 Other: Tesseract/email parser/spacy
 
 ## 👥 Team
-- **Your Name** - [GitHub](#) | [LinkedIn](#)
-- **Teammate 2** - [GitHub](#) | [LinkedIn](#)
+- **Dhruv Sharma** 
+- **Krishna Manoj** 
+- **Samyuktha Sana** 
+- **Shruthi Sudhakaran** 
