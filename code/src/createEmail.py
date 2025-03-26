@@ -12,9 +12,12 @@ from pdf2image import convert_from_bytes
 import pytesseract
 import google as genai
 from PIL import Image
+from dotenv import load_dotenv
+import google.generativeai as genai
+# Load environment variables from the .env file
+load_dotenv()
 # Configure the Gemini API key (from Google AI Studio)
 
-import google.generativeai as genai
 
 # In-memory store for duplicate detection (based on email hash)
 PROCESSED_EMAIL_HASHES = set()
@@ -92,24 +95,52 @@ def call_llm_for_processing(email_text: str, attachment_text: str,
                             rules: str, request_type_defs: str,
                      extraction_fields:list ) -> dict:
     input = f"""
-  
-    rules: {rules},
-    extraction_fields: {extraction_fields} , 
-    Email Content:
-    {email_text}
+    You are an expert in processing loan service requests at Wells Fargo .As part of Commerical Bank Lending Service team you daily get a significant volume of servicing requests through emails which may contain attachments as well . Given input you have to extract key fields, classify the email into its request type and sub request types along with the confidence score strictly based on the rules in the input. The input would contain email content in text form along with attachment in pdf, jpeg, txt or jpg  etc. 
+    
+    
+    Given input : 
+    "
+    "extraction_fields": {extraction_fields} , 
+    "email content":{email_text},
 
-    Attachment content:
+    "Attachment content":
     {attachment_text}
 
-    Rules:
-    {json.dumps(rules, indent=2)}
+    "Rules":{json.dumps(rules, indent=2)}
 
-    Request type description:
-    {json.dumps(request_type_defs, indent=2)}
+    "Request type description":{json.dumps(request_type_defs, indent=2)}
 
+    "
+    And its output format as - 
     
+    extracted_fields : {
+"deal name" : "CANTOR FITZGERALD LP USD 425MM MAR22 / REVOLVER/ CANTOR FIT00037",
+"date":"8-Nov-2023", "effective date":"10-Nov-2023"
+ , "source bank" : "Bank of America, N.A."
+ , "Transactor":"CANTOR FITZGERALD LP" , 
+"Amount" : "USD 20,000,000.00 " ,
+"expiration date" : None 
+}, 
+
+request type : {"Primary Request Type" :"Money-Movement-inbound" , "Request Type" :
+[
+{
+"Adjustment":
+{
+"Confidence score" : 0.2,
+"Reason" : "Since the loan principal has been modified after loan repayment",
+"request sub type" : None 
+ } ,
+ 
+{
+"Money-Movement-inbound" : {
+"Confidence score" : 0.8,
+"Reason" : "Since the money has been paid/moved to the bank and is inbound.", 
+"request sub type" : "Principal"
+ } 
+ ] } 
     """
-    genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+    genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
     # Create the model
     generation_config = {
@@ -121,7 +152,7 @@ def call_llm_for_processing(email_text: str, attachment_text: str,
     }
 
     model = genai.GenerativeModel(
-    model_name="tunedModels/finetunedgemini25proexp0325-nwk0346634no",
+    model_name="tunedModels/finetunedgemini25proexp03252-n29d3ndtniu",
     generation_config=generation_config,
     )
 
@@ -171,7 +202,7 @@ def process_email_with_llm(raw_email: bytes , request_type_defs: str,extraction_
     output = call_llm_for_processing(email_text=email_text , attachment_text=attachment_texts, rules=rules, request_type_defs=request_type_defs, extraction_fields=extraction_fields)
     # Call the LLM to process and interpret the content.
     
-    return output
+    return output.text
 
 
 '''
@@ -183,48 +214,49 @@ extraction_fields - list of fields to be extracted from the email ,
 rules - rules to be applied for the extraction of the fields. 
 '''
 
-def main():
+def run(email_path , request_type_defs, extraction_fields, rules):
 
-    rules = "Use email content section only to get the key extracted fields and attachment content section to identify the request types. "
+    if not rules : 
+        rules = "Use email content section only to get the key extracted fields and attachment content section to identify the request types. "
 
-    extraction_fields= [ "date" , "effective date" , "source bank" , "Transactor" , "Amount" , "Expiration Date" , "deal name" ]
+    if not extraction_fields :
+        extraction_fields= [ "date" , "effective date" , "source bank" , "Transactor" , "Amount" , "Expiration Date" , "deal name" ]
 
-    request_type_defs = """
-        "Adjustment":{
-        "Description" : "interest adjustments and loan modifications" , 
-        "Sub request types" : []
-        },
-        "Closing Notice" : {
-        "Description" : "Completion or closing of loan" , 
-        "Sub request types" : [''Reallocation Fees' ,'Amendment Fees' , ''Reallocation Principal']
-        },
-        "Commitment Change" : {
-        "Description" : "Change of loan commitment" , 
-        "Sub request types" : ['Cashless Roll' , 'Decrease' , 'Increase']
-        },
-        "Fee Payment" : {
-        "Description" : "Adjusting money between accounts by an entity" , 
-        "Sub request types" : ['Ongoing Fee' , 'Letter of Credit Fee']
-        },
-        "Money-Movement-inbound" : {
-        "Description" : "Wells Fargo Bank receiving money" , 
-        "Sub request types" : ['Principal' , 'Interest' , 'Principal + Interest' , 'Principal + Interest + Fee']
-        },
-        "Money-Movement-outbound" : {
-        "Description" : "Wells Fargo bank transferring money to outside entity " , 
-        "Sub request types" : ['Timebound' , 'Foreign currency']
-        }"""
+    if not request_type_defs : 
+        request_type_defs = """
+            "Adjustment":{
+            "Description" : "interest adjustments and loan modifications" , 
+            "Sub request types" : []
+            },
+            "Closing Notice" : {
+            "Description" : "Completion or closing of loan" , 
+            "Sub request types" : [''Reallocation Fees' ,'Amendment Fees' , ''Reallocation Principal']
+            },
+            "Commitment Change" : {
+            "Description" : "Change of loan commitment" , 
+            "Sub request types" : ['Cashless Roll' , 'Decrease' , 'Increase']
+            },
+            "Fee Payment" : {
+            "Description" : "Adjusting money between accounts by an entity" , 
+            "Sub request types" : ['Ongoing Fee' , 'Letter of Credit Fee']
+            },
+            "Money-Movement-inbound" : {
+            "Description" : "Wells Fargo Bank receiving money" , 
+            "Sub request types" : ['Principal' , 'Interest' , 'Principal + Interest' , 'Principal + Interest + Fee']
+            },
+            "Money-Movement-outbound" : {
+            "Description" : "Wells Fargo bank transferring money to outside entity " , 
+            "Sub request types" : ['Timebound' , 'Foreign currency']
+            }"""
 
     # Attempt to load an email from a file; if not found, use simulated content.
     try:
-        with open(r"C:\Users\HP\hackathon\gaied-codebenders\Order.eml", "rb") as f:
+        with open(fr"{email_path}", "rb") as f:
             raw_email = f.read()
     except Exception as e :  
         print(f"Error loading email file: {e}")
         return 
     
     result = process_email_with_llm(raw_email,  request_type_defs, extraction_fields, rules)
-    print(json.dumps(result, indent=4))
+    return json.dumps(result, indent=4) 
 
-if __name__ == "__main__":
-    main()
