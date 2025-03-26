@@ -18,10 +18,13 @@ A brief overview of your project and its purpose. Mention which problem statemen
 
 ## 🎥 Demo
 🔗 [Live Demo](#) (if applicable)  
-📹 [Video Demo](#) (if applicable)  
-🖼️ Screenshots:
+📹 [Video Demo](#) (if applicable) 
+https://www.loom.com/share/d64cecbb8680436a9b5a34e79def51de 
 
-![Screenshot 1](link-to-image)
+🖼️ Screenshots:
+<img width="957" alt="image" src="https://github.com/user-attachments/assets/22976e27-ff2b-463f-8792-e9871b80b0a2" />
+<img width="926" alt="image" src="https://github.com/user-attachments/assets/46f358a8-34ed-480c-9802-0f97efd073fb" />
+<img width="944" alt="image" src="https://github.com/user-attachments/assets/67edf7fa-e3f6-4b61-8713-7dea545ca325" />
 
 ## 💡 Inspiration
 This project was inspired by the need for efficient automation and AI-powered solutions in hackathon environments. Given our experience in Python development, DevOps, and automation, we wanted to build a scalable system that streamlines complex tasks like data validation, backend processing, and deployment automation.
@@ -50,7 +53,7 @@ Some challenges faced include handling imbalanced datasets, ensuring high classi
    pip install -r requirements.txt (for Python)
    
 3. Run the project  
-    streamlit run frontend.py
+   streamlit run frontend.py
    
 
 ## 🏗️ Tech Stack
